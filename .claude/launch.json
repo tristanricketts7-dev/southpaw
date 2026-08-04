@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "southpaw-api",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["api/src/index.js"],
+      "port": 3000
+    }
+  ]
+}

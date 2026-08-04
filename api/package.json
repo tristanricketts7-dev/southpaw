@@ -1,0 +1,24 @@
+{
+  "name": "southpaw-api",
+  "version": "1.0.0",
+  "description": "Southpaw price comparison API",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "ingest": "node src/ingest/runIngest.js",
+    "alerts": "node src/alerts/checkAlerts.js",
+    "scheduler": "node src/ingest/scheduler.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "node-cron": "^4.6.0",
+    "pg": "^8.22.0"
+  }
+}

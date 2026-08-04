@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Southpaw — Left-Handed Golf Club Price Comparison</title>
+<style>
+  :root {
+    --fairway: #1f4d3a;
+    --fairway-dark: #143a2b;
+    --fairway-light: #2f6b4f;
+    --sand: #ece2c8;
+    --sand-dark: #d9c9a3;
+    --gold: #c9a227;
+    --gold-light: #e0bd4a;
+    --ink: #1b1b16;
+    --muted: #6b6b5f;
+    --card-bg: #ffffff;
+    --danger: #b0402f;
+    --radius: 10px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--sand);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  header {
+    background: linear-gradient(135deg, var(--fairway), var(--fairway-dark));
+    color: var(--sand);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .brand h1 {
+    margin: 0;
+    font-size: 1.6rem;
+    letter-spacing: 0.5px;
+  }
+
+  .brand h1 span {
+    color: var(--gold-light);
+  }
+
+  .brand .tagline {
+    font-size: 0.85rem;
+    color: var(--sand-dark);
+  }
+
+  .currency-select {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+  }
+
+  select, input[type="text"], input[type="email"], input[type="number"] {
+    font-size: 0.9rem;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--sand-dark);
+    background: var(--card-bg);
+    color: var(--ink);
+  }
+
+  header select {
+    border: 1px solid var(--gold);
+    background: var(--fairway-light);
+    color: var(--sand);
+  }
+
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px;
+  }
+
+  section.deals {
+    margin-bottom: 28px;
+  }
+
+  section.deals h2, section.listings h2 {
+    font-size: 1.1rem;
+    color: var(--fairway-dark);
+    margin: 0 0 12px;
+  }
+
+  .deals-strip {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+
+  .deal-card {
+    flex: 0 0 220px;
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 14px;
+    border: 1px solid var(--sand-dark);
+    position: relative;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+
+  .deal-card .badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--gold);
+    color: var(--fairway-dark);
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    border-radius: 999px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+
+  .deal-card .brand-name { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; }
+  .deal-card .product-name { font-weight: 600; margin: 4px 0 8px; font-size: 0.95rem; }
+  .deal-card .price-row { display: flex; align-items: baseline; gap: 8px; }
+  .deal-card .price { font-weight: 700; color: var(--fairway-dark); font-size: 1.1rem; }
+  .deal-card .orig-price { text-decoration: line-through; color: var(--muted); font-size: 0.85rem; }
+  .deal-card .seller { font-size: 0.8rem; color: var(--muted); margin-top: 6px; }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+    background: var(--card-bg);
+    padding: 14px;
+    border-radius: var(--radius);
+    border: 1px solid var(--sand-dark);
+  }
+
+  .filters input[type="text"] { flex: 1 1 200px; }
+  .filters select { flex: 0 0 auto; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--sand-dark);
+  }
+
+  th, td {
+    text-align: left;
+    padding: 10px 12px;
+    font-size: 0.88rem;
+    border-bottom: 1px solid var(--sand);
+  }
+
+  th {
+    background: var(--fairway);
+    color: var(--sand);
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  th.active-sort { background: var(--fairway-dark); }
+
+  tbody tr:hover { background: #f7f2e4; }
+
+  .price-cell { font-weight: 700; color: var(--fairway-dark); }
+  .discount-pill {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--fairway-dark);
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-left: 6px;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .btn-notify {
+    background: var(--gold);
+    color: var(--fairway-dark);
+  }
+  .btn-notify:hover { background: var(--gold-light); }
+
+  .btn-link {
+    background: none;
+    color: var(--fairway);
+    text-decoration: underline;
+    padding: 6px 4px;
+  }
+
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 16px;
+    font-size: 0.9rem;
+  }
+
+  .pagination button {
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--fairway);
+    background: var(--card-bg);
+    color: var(--fairway-dark);
+    cursor: pointer;
+  }
+  .pagination button:disabled { opacity: 0.4; cursor: default; }
+
+  .empty-state, .loading-state {
+    text-align: center;
+    padding: 40px;
+    color: var(--muted);
+  }
+
+  /* modal */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 58, 43, 0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 50;
+  }
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 24px;
+    max-width: 380px;
+    width: 100%;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  }
+
+  .modal h3 { margin: 0 0 4px; color: var(--fairway-dark); }
+  .modal p.sub { margin: 0 0 16px; color: var(--muted); font-size: 0.85rem; }
+
+  .modal label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    margin-top: 12px;
+  }
+  .modal input { width: 100%; }
+
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .modal-actions .btn-primary {
+    background: var(--fairway);
+    color: var(--sand);
+    flex: 1;
+  }
+  .modal-actions .btn-primary:hover { background: var(--fairway-light); }
+
+  .modal-actions .btn-cancel {
+    background: none;
+    border: 1px solid var(--sand-dark);
+    color: var(--muted);
+  }
+
+  .modal-message {
+    margin-top: 12px;
+    font-size: 0.85rem;
+    padding: 8px 10px;
+    border-radius: 6px;
+  }
+  .modal-message.success { background: #e6f0ea; color: var(--fairway-dark); }
+  .modal-message.error { background: #fbeae7; color: var(--danger); }
+
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.8rem;
+    padding: 24px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <h1>South<span>paw</span></h1>
+    <span class="tagline">Left-handed golf clubs, compared.</span>
+  </div>
+  <div class="currency-select">
+    <label for="currency">Currency</label>
+    <select id="currency">
+      <option value="USD">USD $</option>
+      <option value="CAD">CAD $</option>
+      <option value="GBP">GBP £</option>
+      <option value="EUR">EUR €</option>
+    </select>
+  </div>
+</header>
+
+<main>
+  <section class="deals">
+    <h2>Top deals right now</h2>
+    <div id="dealsStrip" class="deals-strip">
+      <div class="loading-state">Loading deals…</div>
+    </div>
+  </section>
+
+  <section class="listings">
+    <h2>Compare listings</h2>
+
+    <div class="filters">
+      <input type="text" id="searchInput" placeholder="Search clubs or brands…">
+      <select id="typeFilter"><option value="">All types</option></select>
+      <select id="brandFilter"><option value="">All brands</option></select>
+      <select id="sellerFilter"><option value="">All sellers</option></select>
+      <select id="conditionFilter">
+        <option value="">New &amp; used</option>
+        <option value="new">New</option>
+        <option value="used">Used</option>
+      </select>
+      <select id="sortSelect">
+        <option value="deal">Best deal</option>
+        <option value="price">Lowest price</option>
+        <option value="name">Name</option>
+      </select>
+    </div>
+
+    <div id="tableWrap">
+      <div class="loading-state">Loading listings…</div>
+    </div>
+
+    <div class="pagination" id="pagination" style="display:none;">
+      <button id="prevPage">Prev</button>
+      <span id="pageInfo"></span>
+      <button id="nextPage">Next</button>
+    </div>
+  </section>
+</main>
+
+<footer>Southpaw — prices update as sellers report them. Currency conversion is approximate, for display only.</footer>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3>Notify me on price drop</h3>
+    <p class="sub" id="modalProductName"></p>
+    <label for="modalEmail">Email</label>
+    <input type="email" id="modalEmail" placeholder="you@example.com">
+    <label for="modalTargetPrice">Alert me at or below (optional)</label>
+    <input type="number" id="modalTargetPrice" placeholder="e.g. 350" min="0" step="0.01">
+    <div class="modal-actions">
+      <button class="btn btn-cancel" id="modalCancel">Cancel</button>
+      <button class="btn btn-primary" id="modalSubmit">Notify me</button>
+    </div>
+    <div id="modalMessage"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const API_BASE = ""; // same-origin: served by the Southpaw API's static middleware
+
+  // Approximate, display-only conversion rates from USD.
+  const FX_RATES = { USD: 1, CAD: 1.37, GBP: 0.79, EUR: 0.92 };
+  const FX_SYMBOLS = { USD: "$", CAD: "CA$", GBP: "£", EUR: "€" };
+
+  const state = {
+    page: 1,
+    pageSize: 20,
+    total: 0,
+    currency: "USD",
+    filters: { type: "", brand: "", seller: "", condition: "", search: "", sort: "deal" },
+    modalListingId: null,
+  };
+
+  const el = {
+    dealsStrip: document.getElementById("dealsStrip"),
+    tableWrap: document.getElementById("tableWrap"),
+    pagination: document.getElementById("pagination"),
+    prevPage: document.getElementById("prevPage"),
+    nextPage: document.getElementById("nextPage"),
+    pageInfo: document.getElementById("pageInfo"),
+    searchInput: document.getElementById("searchInput"),
+    typeFilter: document.getElementById("typeFilter"),
+    brandFilter: document.getElementById("brandFilter"),
+    sellerFilter: document.getElementById("sellerFilter"),
+    conditionFilter: document.getElementById("conditionFilter"),
+    sortSelect: document.getElementById("sortSelect"),
+    currencySelect: document.getElementById("currency"),
+    modalOverlay: document.getElementById("modalOverlay"),
+    modalProductName: document.getElementById("modalProductName"),
+    modalEmail: document.getElementById("modalEmail"),
+    modalTargetPrice: document.getElementById("modalTargetPrice"),
+    modalSubmit: document.getElementById("modalSubmit"),
+    modalCancel: document.getElementById("modalCancel"),
+    modalMessage: document.getElementById("modalMessage"),
+  };
+
+  const CLUB_TYPES = ["driver", "irons", "wedge", "putter", "hybrid", "fairway_wood"];
+  const CLUB_TYPE_LABELS = {
+    driver: "Driver", irons: "Irons", wedge: "Wedge",
+    putter: "Putter", hybrid: "Hybrid", fairway_wood: "Fairway Wood",
+  };
+
+  function formatMoney(cents) {
+    const rate = FX_RATES[state.currency] || 1;
+    const amount = (cents / 100) * rate;
+    const symbol = FX_SYMBOLS[state.currency] || "$";
+    return `${symbol}${amount.toFixed(2)}`;
+  }
+
+  async function fetchJson(path) {
+    const res = await fetch(API_BASE + path);
+    if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+    return res.json();
+  }
+
+  function buildListingsQuery() {
+    const params = new URLSearchParams();
+    if (state.filters.type) params.set("type", state.filters.type);
+    if (state.filters.brand) params.set("brand", state.filters.brand);
+    if (state.filters.seller) params.set("seller", state.filters.seller);
+    if (state.filters.condition) params.set("condition", state.filters.condition);
+    if (state.filters.search) params.set("search", state.filters.search);
+    params.set("sort", state.filters.sort);
+    params.set("page", state.page);
+    params.set("pageSize", state.pageSize);
+    return params.toString();
+  }
+
+  async function loadFilterOptions() {
+    CLUB_TYPES.forEach((t) => {
+      const opt = document.createElement("option");
+      opt.value = t;
+      opt.textContent = CLUB_TYPE_LABELS[t];
+      el.typeFilter.appendChild(opt);
+    });
+
+    try {
+      const [brands, sellers] = await Promise.all([
+        fetchJson("/api/brands"),
+        fetchJson("/api/sellers"),
+      ]);
+      brands.forEach((b) => {
+        const opt = document.createElement("option");
+        opt.value = b.name;
+        opt.textContent = b.name;
+        el.brandFilter.appendChild(opt);
+      });
+      sellers.forEach((s) => {
+        const opt = document.createElement("option");
+        opt.value = s.name;
+        opt.textContent = s.name;
+        el.sellerFilter.appendChild(opt);
+      });
+    } catch (err) {
+      console.error("Failed to load filter options", err);
+    }
+  }
+
+  async function loadDeals() {
+    el.dealsStrip.innerHTML = '<div class="loading-state">Loading deals…</div>';
+    try {
+      const deals = await fetchJson("/api/deals/top?limit=8");
+      if (deals.length === 0) {
+        el.dealsStrip.innerHTML = '<div class="empty-state">No deals right now — check back soon.</div>';
+        return;
+      }
+      el.dealsStrip.innerHTML = deals.map(dealCardHtml).join("");
+    } catch (err) {
+      el.dealsStrip.innerHTML = '<div class="empty-state">Couldn\'t load deals.</div>';
+      console.error(err);
+    }
+  }
+
+  function dealCardHtml(d) {
+    return `
+      <div class="deal-card">
+        ${d.discount_pct > 0 ? `<div class="badge">${d.discount_pct}% off</div>` : ""}
+        <div class="brand-name">${escapeHtml(d.brand_name)}</div>
+        <div class="product-name">${escapeHtml(d.product_name)}</div>
+        <div class="price-row">
+          <span class="price">${formatMoney(d.price_cents)}</span>
+          ${d.original_price_cents && d.original_price_cents > d.price_cents ? `<span class="orig-price">${formatMoney(d.original_price_cents)}</span>` : ""}
+        </div>
+        <div class="seller">${escapeHtml(d.seller_name)} · ${escapeHtml(d.club_type)}</div>
+      </div>
+    `;
+  }
+
+  async function loadListings() {
+    el.tableWrap.innerHTML = '<div class="loading-state">Loading listings…</div>';
+    el.pagination.style.display = "none";
+    try {
+      const result = await fetchJson("/api/listings?" + buildListingsQuery());
+      state.total = result.total;
+      renderTable(result.data);
+      renderPagination();
+    } catch (err) {
+      el.tableWrap.innerHTML = '<div class="empty-state">Couldn\'t load listings.</div>';
+      console.error(err);
+    }
+  }
+
+  function renderTable(rows) {
+    if (rows.length === 0) {
+      el.tableWrap.innerHTML = '<div class="empty-state">No listings match your filters.</div>';
+      return;
+    }
+
+    const sortLabels = { deal: "Deal", price: "Price", name: "Name" };
+    const sortKey = state.filters.sort;
+
+    const table = document.createElement("table");
+    table.innerHTML = `
+      <thead>
+        <tr>
+          <th data-sort="name" class="${sortKey === "name" ? "active-sort" : ""}">Product</th>
+          <th>Brand</th>
+          <th>Type</th>
+          <th>Condition</th>
+          <th>Seller</th>
+          <th data-sort="price" class="${sortKey === "price" ? "active-sort" : ""}">Price</th>
+          <th data-sort="deal" class="${sortKey === "deal" ? "active-sort" : ""}">Deal</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    `;
+
+    const tbody = table.querySelector("tbody");
+    rows.forEach((r) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${escapeHtml(r.product_name)}</td>
+        <td>${escapeHtml(r.brand_name)}</td>
+        <td>${escapeHtml(CLUB_TYPE_LABELS[r.club_type] || r.club_type)}</td>
+        <td>${escapeHtml(r.condition)}</td>
+        <td>${escapeHtml(r.seller_name)}</td>
+        <td class="price-cell">${formatMoney(r.price_cents)}${Number(r.discount_pct) > 0 ? `<span class="discount-pill">${r.discount_pct}% off</span>` : ""}</td>
+        <td>${Number(r.discount_pct) > 0 ? r.discount_pct + "%" : "—"}</td>
+        <td>
+          <a class="btn btn-link" href="${escapeAttr(r.product_url)}" target="_blank" rel="noopener">View</a>
+          <button class="btn btn-notify" data-listing-id="${r.listing_id}" data-product-name="${escapeAttr(r.brand_name + " " + r.product_name)}">Notify me</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    el.tableWrap.innerHTML = "";
+    el.tableWrap.appendChild(table);
+
+    table.querySelectorAll("th[data-sort]").forEach((th) => {
+      th.addEventListener("click", () => {
+        state.filters.sort = th.dataset.sort;
+        el.sortSelect.value = th.dataset.sort;
+        state.page = 1;
+        loadListings();
+      });
+    });
+
+    table.querySelectorAll(".btn-notify").forEach((btn) => {
+      btn.addEventListener("click", () => openModal(Number(btn.dataset.listingId), btn.dataset.productName));
+    });
+  }
+
+  function renderPagination() {
+    const totalPages = Math.max(Math.ceil(state.total / state.pageSize), 1);
+    el.pagination.style.display = "flex";
+    el.pageInfo.textContent = `Page ${state.page} of ${totalPages} (${state.total} listings)`;
+    el.prevPage.disabled = state.page <= 1;
+    el.nextPage.disabled = state.page >= totalPages;
+  }
+
+  function openModal(listingId, productName) {
+    state.modalListingId = listingId;
+    el.modalProductName.textContent = productName;
+    el.modalEmail.value = "";
+    el.modalTargetPrice.value = "";
+    el.modalMessage.innerHTML = "";
+    el.modalOverlay.classList.add("open");
+  }
+
+  function closeModal() {
+    el.modalOverlay.classList.remove("open");
+    state.modalListingId = null;
+  }
+
+  async function submitWatch() {
+    const email = el.modalEmail.value.trim();
+    if (!email || !email.includes("@")) {
+      el.modalMessage.innerHTML = '<div class="modal-message error">Enter a valid email.</div>';
+      return;
+    }
+
+    const targetPriceInput = el.modalTargetPrice.value.trim();
+    const payload = { email, listing_id: state.modalListingId };
+    if (targetPriceInput !== "") {
+      const dollars = Number(targetPriceInput);
+      if (!Number.isFinite(dollars) || dollars < 0) {
+        el.modalMessage.innerHTML = '<div class="modal-message error">Enter a valid target price.</div>';
+        return;
+      }
+      payload.target_price_cents = Math.round(dollars * 100);
+    }
+
+    el.modalSubmit.disabled = true;
+    try {
+      const res = await fetch(API_BASE + "/api/watchlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body.error || "Failed to create watch");
+      }
+      el.modalMessage.innerHTML = '<div class="modal-message success">You\'re set — we\'ll email you on a price drop.</div>';
+      setTimeout(closeModal, 1400);
+    } catch (err) {
+      el.modalMessage.innerHTML = `<div class="modal-message error">${escapeHtml(err.message)}</div>`;
+    } finally {
+      el.modalSubmit.disabled = false;
+    }
+  }
+
+  function escapeHtml(str) {
+    return String(str ?? "").replace(/[&<>"']/g, (c) => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+    }[c]));
+  }
+  function escapeAttr(str) { return escapeHtml(str); }
+
+  // wiring
+  let searchDebounce;
+  el.searchInput.addEventListener("input", () => {
+    clearTimeout(searchDebounce);
+    searchDebounce = setTimeout(() => {
+      state.filters.search = el.searchInput.value.trim();
+      state.page = 1;
+      loadListings();
+    }, 300);
+  });
+
+  el.typeFilter.addEventListener("change", () => { state.filters.type = el.typeFilter.value; state.page = 1; loadListings(); });
+  el.brandFilter.addEventListener("change", () => { state.filters.brand = el.brandFilter.value; state.page = 1; loadListings(); });
+  el.sellerFilter.addEventListener("change", () => { state.filters.seller = el.sellerFilter.value; state.page = 1; loadListings(); });
+  el.conditionFilter.addEventListener("change", () => { state.filters.condition = el.conditionFilter.value; state.page = 1; loadListings(); });
+  el.sortSelect.addEventListener("change", () => { state.filters.sort = el.sortSelect.value; state.page = 1; loadListings(); });
+  el.currencySelect.addEventListener("change", () => { state.currency = el.currencySelect.value; loadListings(); loadDeals(); });
+
+  el.prevPage.addEventListener("click", () => { if (state.page > 1) { state.page--; loadListings(); } });
+  el.nextPage.addEventListener("click", () => {
+    const totalPages = Math.max(Math.ceil(state.total / state.pageSize), 1);
+    if (state.page < totalPages) { state.page++; loadListings(); }
+  });
+
+  el.modalCancel.addEventListener("click", closeModal);
+  el.modalSubmit.addEventListener("click", submitWatch);
+  el.modalOverlay.addEventListener("click", (e) => { if (e.target === el.modalOverlay) closeModal(); });
+
+  loadFilterOptions();
+  loadDeals();
+  loadListings();
+})();
+</script>
+</body>
+</html>
