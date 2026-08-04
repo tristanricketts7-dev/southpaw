@@ -389,7 +389,7 @@
 
 <script>
 (function () {
-  const API_BASE = ""; // same-origin: served by the Southpaw API's static middleware
+  const API_BASE = window.SOUTHPAW_API_BASE || "https://southpaw-avrr.onrender.com";
 
   // Approximate, display-only conversion rates from USD.
   const FX_RATES = { USD: 1, CAD: 1.37, GBP: 0.79, EUR: 0.92 };
