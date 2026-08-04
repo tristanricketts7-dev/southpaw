@@ -1,0 +1,39 @@
+name: Ingest and check price alerts
+
+on:
+  schedule:
+    # 06:00 and 18:00 UTC -- matches src/ingest/scheduler.js's default cadence.
+    - cron: "0 6,18 * * *"
+  workflow_dispatch: {}
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: api
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: api/package-lock.json
+
+      - run: npm install
+
+      - name: Run ingest
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: npm run ingest
+
+      - name: Check alerts
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          EMAIL_PROVIDER: ${{ secrets.EMAIL_PROVIDER }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+          APP_BASE_URL: ${{ secrets.APP_BASE_URL }}
+          POSTMARK_SERVER_TOKEN: ${{ secrets.POSTMARK_SERVER_TOKEN }}
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+        run: npm run alerts
