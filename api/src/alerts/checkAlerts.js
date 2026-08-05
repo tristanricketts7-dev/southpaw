@@ -2,6 +2,7 @@ require("dotenv").config({ path: require("path").join(__dirname, "..", "..", ".e
 const { pool } = require("../db");
 const { getEmailProvider } = require("./emailProvider");
 const { buildPriceDropEmail } = require("./emailTemplate");
+const { signWatchlistItemId } = require("./unsubscribeToken");
 
 // Finds watchlist items whose listing price just dropped (latest price_history
 // entry is lower than the one before it), still meets the user's target (or no
@@ -39,11 +40,15 @@ const FIND_DUE_ALERTS_SQL = `
 async function checkAlerts() {
   const provider = getEmailProvider();
   const appBaseUrl = process.env.APP_BASE_URL || "http://localhost:3000";
+  const apiBaseUrl = process.env.API_BASE_URL || "http://localhost:3000";
 
   const { rows } = await pool.query(FIND_DUE_ALERTS_SQL);
 
   let sent = 0;
   for (const row of rows) {
+    const token = signWatchlistItemId(row.watchlist_item_id);
+    const unsubscribeUrl = `${apiBaseUrl}/api/unsubscribe?id=${row.watchlist_item_id}&token=${token}`;
+
     const { subject, body } = buildPriceDropEmail({
       productName: row.product_name,
       brandName: row.brand_name,
@@ -53,6 +58,7 @@ async function checkAlerts() {
       currency: row.currency,
       productUrl: row.product_url,
       appBaseUrl,
+      unsubscribeUrl,
     });
 
     try {

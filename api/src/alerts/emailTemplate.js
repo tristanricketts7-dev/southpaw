@@ -3,7 +3,7 @@ function formatPrice(cents, currency) {
 }
 
 // Builds the price-drop email for one watchlist item hitting its target/drop condition.
-function buildPriceDropEmail({ productName, brandName, sellerName, priceCents, previousPriceCents, currency, productUrl, appBaseUrl }) {
+function buildPriceDropEmail({ productName, brandName, sellerName, priceCents, previousPriceCents, currency, productUrl, appBaseUrl, unsubscribeUrl }) {
   const discountPct = previousPriceCents
     ? Math.round((100 * (previousPriceCents - priceCents)) / previousPriceCents)
     : 0;
@@ -22,6 +22,12 @@ function buildPriceDropEmail({ productName, brandName, sellerName, priceCents, p
     `View listing: ${productUrl}`,
     "",
     `Manage your watchlist: ${appBaseUrl}`,
+    "",
+    `Unsubscribe from alerts for this item: ${unsubscribeUrl}`,
+    "",
+    "--",
+    "Southpaw",
+    "[MAILING ADDRESS -- replace with real address]",
   ].join("\n");
 
   return { subject, body };

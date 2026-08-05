@@ -9,6 +9,7 @@ const productsRouter = require("./routes/products");
 const sellersRouter = require("./routes/sellers");
 const brandsRouter = require("./routes/brands");
 const watchlistRouter = require("./routes/watchlist");
+const unsubscribeRouter = require("./routes/unsubscribe");
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use("/api/products", productsRouter);
 app.use("/api/sellers", sellersRouter);
 app.use("/api/brands", brandsRouter);
 app.use("/api/watchlist", watchlistRouter);
+app.use("/api/unsubscribe", unsubscribeRouter);
 
 app.use((err, _req, res, _next) => {
   console.error(err);

@@ -34,6 +34,8 @@ jobs:
           EMAIL_PROVIDER: ${{ secrets.EMAIL_PROVIDER }}
           EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
           APP_BASE_URL: ${{ secrets.APP_BASE_URL }}
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          UNSUBSCRIBE_SECRET: ${{ secrets.UNSUBSCRIBE_SECRET }}
           POSTMARK_SERVER_TOKEN: ${{ secrets.POSTMARK_SERVER_TOKEN }}
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
         run: npm run alerts
