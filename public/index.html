@@ -4,21 +4,38 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Southpaw — Left-Handed Golf Club Price Comparison</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --fairway: #1f4d3a;
-    --fairway-dark: #143a2b;
-    --fairway-light: #2f6b4f;
-    --sand: #ece2c8;
-    --sand-dark: #d9c9a3;
-    --gold: #c9a227;
-    --gold-light: #e0bd4a;
-    --ink: #1b1b16;
-    --muted: #6b6b5f;
-    --card-bg: #ffffff;
-    --danger: #b0402f;
-    --radius: 10px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --fairway: #1E3F2A;
+    --fairway-dark: #12261A;
+    --fairway-light: #2E5B3E;
+    --sand: #F1E9D4;
+    --sand-dark: #DDCEA6;
+    --cream: #FBF6E9;
+    --gold: #C79A4B;
+    --gold-light: #DDB878;
+    --flag-red: #A6412E;
+    --flag-red-light: #C25A44;
+    --ink: #211E14;
+    --muted: #736A56;
+    --card-bg: #FFFDF7;
+    --radius: 12px;
+
+    --type-driver: #1E3F2A;
+    --type-fairway-wood: #3F7350;
+    --type-irons: #C79A4B;
+    --type-wedge: #B5722F;
+    --type-hybrid: #6E7B45;
+    --type-putter: #3C6E8F;
+
+    --font-serif: "Fraunces", Georgia, serif;
+    --font-sans: "Archivo", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+    font-family: var(--font-sans);
   }
 
   * { box-sizing: border-box; }
@@ -30,28 +47,36 @@
     min-height: 100vh;
   }
 
+  h1, h2, h3 { font-family: var(--font-serif); }
+
+  .mono { font-family: var(--font-mono); }
+
+  /* ---------- header ---------- */
   header {
     background: linear-gradient(135deg, var(--fairway), var(--fairway-dark));
     color: var(--sand);
-    padding: 20px 24px;
+    padding: 22px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    gap: 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
   }
 
   .brand {
     display: flex;
-    align-items: baseline;
-    gap: 10px;
+    align-items: center;
+    gap: 14px;
   }
+
+  .club-icon { flex: 0 0 auto; }
 
   .brand h1 {
     margin: 0;
-    font-size: 1.6rem;
-    letter-spacing: 0.5px;
+    font-size: 1.75rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
   }
 
   .brand h1 span {
@@ -59,101 +84,193 @@
   }
 
   .brand .tagline {
-    font-size: 0.85rem;
+    margin: 2px 0 0;
+    font-size: 0.86rem;
     color: var(--sand-dark);
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
 
-  .currency-select {
+  .chevron {
+    color: var(--gold);
+    font-family: var(--font-serif);
+    display: inline-block;
+    transform: scaleX(-1);
+  }
+
+  /* ---------- currency segmented control ---------- */
+  .currency-toggle {
+    display: inline-flex;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 999px;
+    padding: 3px;
+    gap: 2px;
+  }
+
+  .currency-btn {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    padding: 6px 13px;
+    border-radius: 999px;
+    border: none;
+    background: transparent;
+    color: var(--sand-dark);
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .currency-btn:hover { color: var(--sand); }
+
+  .currency-btn.active {
+    background: var(--gold);
+    color: var(--fairway-dark);
+  }
+
+  /* ---------- layout ---------- */
+  main {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 28px 24px;
+  }
+
+  section.deals { margin-bottom: 32px; }
+
+  section.deals h2, section.listings h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--fairway-dark);
+    margin: 0 0 14px;
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 0.9rem;
   }
 
-  select, input[type="text"], input[type="email"], input[type="number"] {
-    font-size: 0.9rem;
-    padding: 8px 10px;
-    border-radius: 6px;
-    border: 1px solid var(--sand-dark);
-    background: var(--card-bg);
-    color: var(--ink);
-  }
-
-  header select {
-    border: 1px solid var(--gold);
-    background: var(--fairway-light);
-    color: var(--sand);
-  }
-
-  main {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 24px;
-  }
-
-  section.deals {
-    margin-bottom: 28px;
-  }
-
-  section.deals h2, section.listings h2 {
-    font-size: 1.1rem;
-    color: var(--fairway-dark);
-    margin: 0 0 12px;
-  }
-
+  /* ---------- deal cards ---------- */
   .deals-strip {
     display: flex;
-    gap: 12px;
+    gap: 14px;
     overflow-x: auto;
-    padding-bottom: 8px;
+    padding: 4px 4px 12px;
   }
 
   .deal-card {
-    flex: 0 0 220px;
+    flex: 0 0 230px;
     background: var(--card-bg);
     border-radius: var(--radius);
-    padding: 14px;
+    padding: 16px;
     border: 1px solid var(--sand-dark);
     position: relative;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    box-shadow: 0 2px 6px rgba(30, 63, 42, 0.08);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .deal-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 22px rgba(30, 63, 42, 0.18);
   }
 
   .deal-card .badge {
     position: absolute;
-    top: -8px;
-    right: -8px;
-    background: var(--gold);
-    color: var(--fairway-dark);
-    font-weight: 700;
-    font-size: 0.75rem;
-    padding: 4px 8px;
+    top: -10px;
+    left: 14px;
+    background: var(--flag-red);
+    color: var(--cream);
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 0.74rem;
+    padding: 5px 10px;
     border-radius: 999px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 6px rgba(166, 65, 46, 0.4);
   }
 
-  .deal-card .brand-name { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; }
-  .deal-card .product-name { font-weight: 600; margin: 4px 0 8px; font-size: 0.95rem; }
-  .deal-card .price-row { display: flex; align-items: baseline; gap: 8px; }
-  .deal-card .price { font-weight: 700; color: var(--fairway-dark); font-size: 1.1rem; }
-  .deal-card .orig-price { text-decoration: line-through; color: var(--muted); font-size: 0.85rem; }
-  .deal-card .seller { font-size: 0.8rem; color: var(--muted); margin-top: 6px; }
+  .deal-card .brand-name {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-top: 4px;
+  }
+  .deal-card .product-name { font-weight: 600; margin: 4px 0 10px; font-size: 0.98rem; line-height: 1.25; }
+  .deal-card .price-row { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .deal-card .price { font-family: var(--font-mono); font-weight: 600; color: var(--fairway-dark); font-size: 1.15rem; }
+  .deal-card .orig-price { font-family: var(--font-mono); text-decoration: line-through; color: var(--muted); font-size: 0.82rem; }
+  .deal-card .seller { font-size: 0.8rem; color: var(--muted); margin-top: 8px; display: flex; align-items: center; gap: 6px; }
 
+  /* ---------- skeleton loaders ---------- */
+  @keyframes skeleton-shimmer {
+    0% { background-position: -300px 0; }
+    100% { background-position: 300px 0; }
+  }
+  .skeleton {
+    background: linear-gradient(90deg, var(--sand-dark) 25%, #efe3c4 37%, var(--sand-dark) 63%);
+    background-size: 600px 100%;
+    animation: skeleton-shimmer 1.3s ease-in-out infinite;
+    border-radius: 8px;
+  }
+  .skeleton-card { flex: 0 0 230px; height: 128px; border-radius: var(--radius); }
+  .skeleton-row { height: 42px; margin-bottom: 8px; border-radius: 8px; }
+
+  /* ---------- filters ---------- */
   .filters {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
     background: var(--card-bg);
     padding: 14px;
     border-radius: var(--radius);
     border: 1px solid var(--sand-dark);
   }
 
-  .filters input[type="text"] { flex: 1 1 200px; }
+  input[type="text"], input[type="email"], input[type="number"] {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    padding: 9px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--sand-dark);
+    background: #fff;
+    color: var(--ink);
+  }
+  input:focus, select:focus, button:focus-visible {
+    outline: none;
+    border-color: var(--fairway);
+    box-shadow: 0 0 0 3px rgba(30, 63, 42, 0.15);
+  }
+
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+    font-family: var(--font-sans);
+    font-size: 0.88rem;
+    padding: 9px 32px 9px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--sand-dark);
+    background-color: #fff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%231E3F2A' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  .filters input[type="text"] { flex: 1 1 220px; }
   .filters select { flex: 0 0 auto; }
+
+  /* ---------- table ---------- */
+  .table-scroll {
+    overflow-x: auto;
+    border-radius: var(--radius);
+    position: relative;
+  }
 
   table {
     width: 100%;
+    min-width: 720px;
     border-collapse: collapse;
     background: var(--card-bg);
     border-radius: var(--radius);
@@ -163,7 +280,7 @@
 
   th, td {
     text-align: left;
-    padding: 10px 12px;
+    padding: 12px 14px;
     font-size: 0.88rem;
     border-bottom: 1px solid var(--sand);
   }
@@ -171,92 +288,155 @@
   th {
     background: var(--fairway);
     color: var(--sand);
+    font-family: var(--font-mono);
     font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
     cursor: pointer;
     user-select: none;
     white-space: nowrap;
   }
 
-  th.active-sort { background: var(--fairway-dark); }
+  th.active-sort { background: var(--fairway-dark); color: var(--gold-light); }
 
-  tbody tr:hover { background: #f7f2e4; }
+  tbody tr { transition: background 0.12s ease; }
+  tbody tr:hover { background: var(--sand); }
 
-  .price-cell { font-weight: 700; color: var(--fairway-dark); }
+  .price-cell { font-family: var(--font-mono); font-weight: 600; color: var(--fairway-dark); }
+
   .discount-pill {
     display: inline-block;
-    background: var(--gold);
-    color: var(--fairway-dark);
-    font-weight: 700;
-    font-size: 0.75rem;
+    background: var(--flag-red);
+    color: var(--cream);
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 0.72rem;
     padding: 2px 8px;
     border-radius: 999px;
-    margin-left: 6px;
+    margin-left: 7px;
   }
 
-  .type-badge {
+  .condition-dot {
     display: inline-block;
-    background: var(--sand-dark);
-    color: var(--fairway-dark);
-    font-weight: 700;
-    font-size: 0.72rem;
-    letter-spacing: 0.3px;
-    padding: 2px 7px;
-    border-radius: 5px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 6px;
   }
+  .condition-dot.new { background: var(--fairway-light); }
+  .condition-dot.used { background: var(--gold); }
 
-  .btn {
-    display: inline-block;
-    padding: 6px 12px;
-    border-radius: 6px;
+  .seller-link {
+    background: none;
     border: none;
-    font-size: 0.82rem;
+    padding: 0;
+    color: var(--fairway);
+    font: inherit;
     font-weight: 600;
     cursor: pointer;
+    text-decoration: none;
+    border-bottom: 1px dashed var(--fairway-light);
   }
+  .seller-link:hover { color: var(--fairway-light); border-bottom-style: solid; }
+
+  /* ---------- club type badges ---------- */
+  .type-badge {
+    display: inline-block;
+    color: var(--cream);
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 0.7rem;
+    letter-spacing: 0.4px;
+    padding: 3px 7px;
+    border-radius: 5px;
+  }
+  .type-badge.driver { background: var(--type-driver); }
+  .type-badge.fairway_wood { background: var(--type-fairway-wood); }
+  .type-badge.irons { background: var(--type-irons); color: var(--fairway-dark); }
+  .type-badge.wedge { background: var(--type-wedge); }
+  .type-badge.hybrid { background: var(--type-hybrid); }
+  .type-badge.putter { background: var(--type-putter); }
+
+  /* ---------- buttons ---------- */
+  .btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+  }
+  .btn:active { transform: translateY(1px); }
+
+  .btn-primary {
+    background: var(--fairway);
+    color: var(--sand);
+  }
+  .btn-primary:hover { background: var(--fairway-light); }
+  .btn-primary:disabled { opacity: 0.65; cursor: default; }
+
+  .btn-secondary {
+    background: transparent;
+    border: 1.5px solid var(--fairway);
+    color: var(--fairway-dark);
+  }
+  .btn-secondary:hover { background: var(--fairway); color: var(--sand); }
+  .btn-secondary:disabled { opacity: 0.4; cursor: default; background: transparent; color: var(--fairway-dark); }
 
   .btn-notify {
     background: var(--gold);
     color: var(--fairway-dark);
+    padding: 7px 13px;
+    font-size: 0.8rem;
   }
   .btn-notify:hover { background: var(--gold-light); }
 
   .btn-link {
     background: none;
+    border: none;
     color: var(--fairway);
     text-decoration: underline;
-    padding: 6px 4px;
+    padding: 7px 6px 7px 0;
+    font-size: 0.8rem;
+    font-weight: 600;
   }
+  .btn-link:hover { color: var(--fairway-light); }
 
+  .row-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 2px; }
+
+  /* ---------- pagination ---------- */
   .pagination {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    margin-top: 16px;
-    font-size: 0.9rem;
-  }
-
-  .pagination button {
-    padding: 6px 14px;
-    border-radius: 6px;
-    border: 1px solid var(--fairway);
-    background: var(--card-bg);
-    color: var(--fairway-dark);
-    cursor: pointer;
-  }
-  .pagination button:disabled { opacity: 0.4; cursor: default; }
-
-  .empty-state, .loading-state {
-    text-align: center;
-    padding: 40px;
+    gap: 14px;
+    margin-top: 18px;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
     color: var(--muted);
   }
 
-  /* modal */
+  .pagination .btn-secondary { padding: 6px 16px; }
+
+  /* ---------- empty / error states ---------- */
+  .empty-state {
+    text-align: center;
+    padding: 44px;
+    color: var(--muted);
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    border: 1px solid var(--sand-dark);
+  }
+
+  /* ---------- modal ---------- */
   .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(20, 58, 43, 0.55);
+    background: rgba(18, 38, 26, 0.6);
     display: none;
     align-items: center;
     justify-content: center;
@@ -268,57 +448,104 @@
   .modal {
     background: var(--card-bg);
     border-radius: var(--radius);
-    padding: 24px;
-    max-width: 380px;
+    padding: 28px;
+    max-width: 400px;
     width: 100%;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
   }
 
-  .modal h3 { margin: 0 0 4px; color: var(--fairway-dark); }
-  .modal p.sub { margin: 0 0 16px; color: var(--muted); font-size: 0.85rem; }
+  .modal h3 { margin: 0 0 4px; color: var(--fairway-dark); font-size: 1.3rem; }
+  .modal p.sub { margin: 0 0 18px; color: var(--muted); font-size: 0.87rem; }
 
   .modal label {
     display: block;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     font-weight: 600;
-    margin-bottom: 4px;
-    margin-top: 12px;
+    color: var(--fairway-dark);
+    margin-bottom: 5px;
+    margin-top: 14px;
   }
   .modal input { width: 100%; }
 
   .modal-actions {
     display: flex;
     gap: 10px;
-    margin-top: 20px;
+    margin-top: 22px;
   }
-
-  .modal-actions .btn-primary {
-    background: var(--fairway);
-    color: var(--sand);
-    flex: 1;
-  }
-  .modal-actions .btn-primary:hover { background: var(--fairway-light); }
-
-  .modal-actions .btn-cancel {
-    background: none;
-    border: 1px solid var(--sand-dark);
-    color: var(--muted);
-  }
+  .modal-actions .btn { flex: 1; text-align: center; }
 
   .modal-message {
-    margin-top: 12px;
+    margin-top: 14px;
     font-size: 0.85rem;
-    padding: 8px 10px;
-    border-radius: 6px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
-  .modal-message.success { background: #e6f0ea; color: var(--fairway-dark); }
-  .modal-message.error { background: #fbeae7; color: var(--danger); }
+  .modal-message.success { background: #E4EFE6; color: var(--fairway-dark); }
+  .modal-message.error { background: #FBEAE7; color: var(--flag-red); }
+  .check-icon { flex: 0 0 auto; color: var(--fairway); }
 
   footer {
     text-align: center;
     color: var(--muted);
-    font-size: 0.8rem;
-    padding: 24px;
+    font-size: 0.82rem;
+    padding: 28px 20px;
+    border-top: 1px solid var(--sand-dark);
+    margin-top: 12px;
+  }
+  footer .footer-tagline {
+    font-family: var(--font-serif);
+    color: var(--fairway-dark);
+    font-size: 1rem;
+    margin: 0 0 6px;
+  }
+
+  /* ---------- mobile: table becomes stacked cards ---------- */
+  @media (max-width: 700px) {
+    header { padding: 18px; }
+    main { padding: 20px 14px; }
+
+    .table-scroll { overflow: visible; }
+    table { min-width: 0; border: none; background: none; }
+    thead { position: absolute; top: -9999px; left: -9999px; }
+
+    tr {
+      display: block;
+      margin-bottom: 12px;
+      border: 1px solid var(--sand-dark);
+      border-radius: var(--radius);
+      padding: 8px 10px;
+      background: var(--card-bg);
+    }
+    tbody tr:hover { background: var(--card-bg); }
+
+    td {
+      display: block;
+      border: none;
+      padding: 7px 2px;
+      position: relative;
+      padding-left: 42%;
+      text-align: right;
+      min-height: 20px;
+    }
+    td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 2px;
+      width: 38%;
+      text-align: left;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    td.row-actions-cell { text-align: left; padding-left: 2px; }
+    td.row-actions-cell::before { display: none; }
+    td.row-actions-cell .row-actions { justify-content: flex-start; margin-top: 4px; }
   }
 </style>
 </head>
@@ -326,30 +553,36 @@
 
 <header>
   <div class="brand">
-    <h1>South<span>paw</span></h1>
-    <span class="tagline">Left-handed golf clubs, compared.</span>
+    <svg class="club-icon" width="34" height="34" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M23 3 L10 27" stroke="#C79A4B" stroke-width="2.6" stroke-linecap="round"/>
+      <path d="M10 27 C6.8 27.6 5.2 30 7.2 31.2 C9.8 32.6 13.2 30 12 27.3 C11.4 26 9.9 25.9 10 27 Z" fill="#C79A4B"/>
+    </svg>
+    <div>
+      <h1>South<span>paw</span></h1>
+      <p class="tagline"><span class="chevron">›</span> Every site defaults right-handed. We start left.</p>
+    </div>
   </div>
-  <div class="currency-select">
-    <label for="currency">Currency</label>
-    <select id="currency">
-      <option value="USD">USD $</option>
-      <option value="CAD">CAD $</option>
-      <option value="GBP">GBP £</option>
-      <option value="EUR">EUR €</option>
-    </select>
+  <div class="currency-toggle" id="currencyToggle" role="group" aria-label="Currency">
+    <button type="button" class="currency-btn active" data-currency="USD">USD</button>
+    <button type="button" class="currency-btn" data-currency="CAD">CAD</button>
+    <button type="button" class="currency-btn" data-currency="GBP">GBP</button>
+    <button type="button" class="currency-btn" data-currency="EUR">EUR</button>
   </div>
 </header>
 
 <main>
   <section class="deals">
-    <h2>Top deals right now</h2>
+    <h2><span class="chevron">›</span> Top deals right now</h2>
     <div id="dealsStrip" class="deals-strip">
-      <div class="loading-state">Loading deals…</div>
+      <div class="skeleton skeleton-card"></div>
+      <div class="skeleton skeleton-card"></div>
+      <div class="skeleton skeleton-card"></div>
+      <div class="skeleton skeleton-card"></div>
     </div>
   </section>
 
   <section class="listings">
-    <h2>Compare listings</h2>
+    <h2><span class="chevron">›</span> Compare listings</h2>
 
     <div class="filters">
       <input type="text" id="searchInput" placeholder="Search clubs or brands…">
@@ -368,19 +601,27 @@
       </select>
     </div>
 
-    <div id="tableWrap">
-      <div class="loading-state">Loading listings…</div>
+    <div class="table-scroll" id="tableWrap">
+      <div class="skeleton skeleton-row"></div>
+      <div class="skeleton skeleton-row"></div>
+      <div class="skeleton skeleton-row"></div>
+      <div class="skeleton skeleton-row"></div>
+      <div class="skeleton skeleton-row"></div>
     </div>
 
     <div class="pagination" id="pagination" style="display:none;">
-      <button id="prevPage">Prev</button>
+      <button class="btn btn-secondary" id="prevPage">‹ Prev</button>
       <span id="pageInfo"></span>
-      <button id="nextPage">Next</button>
+      <button class="btn btn-secondary" id="nextPage">Next ›</button>
     </div>
   </section>
 </main>
 
-<footer>Southpaw — prices update as sellers report them. Currency conversion is approximate, for display only.</footer>
+<footer>
+  <p class="footer-tagline">Southpaw</p>
+  <p>Every site defaults right-handed. We start left.</p>
+  <p>Prices update as sellers report them. Currency conversion is approximate, for display only.</p>
+</footer>
 
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
@@ -391,7 +632,7 @@
     <label for="modalTargetPrice">Alert me at or below (optional)</label>
     <input type="number" id="modalTargetPrice" placeholder="e.g. 350" min="0" step="0.01">
     <div class="modal-actions">
-      <button class="btn btn-cancel" id="modalCancel">Cancel</button>
+      <button class="btn btn-secondary" id="modalCancel">Cancel</button>
       <button class="btn btn-primary" id="modalSubmit">Notify me</button>
     </div>
     <div id="modalMessage"></div>
@@ -428,7 +669,7 @@
     sellerFilter: document.getElementById("sellerFilter"),
     conditionFilter: document.getElementById("conditionFilter"),
     sortSelect: document.getElementById("sortSelect"),
-    currencySelect: document.getElementById("currency"),
+    currencyToggle: document.getElementById("currencyToggle"),
     modalOverlay: document.getElementById("modalOverlay"),
     modalProductName: document.getElementById("modalProductName"),
     modalEmail: document.getElementById("modalEmail"),
@@ -451,7 +692,12 @@
   function clubTypeBadgeHtml(clubType) {
     const label = CLUB_TYPE_LABELS[clubType] || clubType;
     const badge = CLUB_TYPE_BADGES[clubType] || String(clubType).slice(0, 2).toUpperCase();
-    return `<span class="type-badge" title="${escapeAttr(label)}">${escapeHtml(badge)}</span>`;
+    return `<span class="type-badge ${escapeAttr(clubType)}" title="${escapeAttr(label)}">${escapeHtml(badge)}</span>`;
+  }
+
+  function conditionHtml(condition) {
+    const cls = condition === "used" ? "used" : "new";
+    return `<span class="condition-dot ${cls}"></span>${escapeHtml(condition)}`;
   }
 
   function formatMoney(cents) {
@@ -510,8 +756,15 @@
     }
   }
 
+  function skeletonCards(n) {
+    return Array.from({ length: n }).map(() => '<div class="skeleton skeleton-card"></div>').join("");
+  }
+  function skeletonRows(n) {
+    return Array.from({ length: n }).map(() => '<div class="skeleton skeleton-row"></div>').join("");
+  }
+
   async function loadDeals() {
-    el.dealsStrip.innerHTML = '<div class="loading-state">Loading deals…</div>';
+    el.dealsStrip.innerHTML = skeletonCards(4);
     try {
       const deals = await fetchJson("/api/deals/top?limit=4");
       if (deals.length === 0) {
@@ -520,7 +773,7 @@
       }
       el.dealsStrip.innerHTML = deals.map(dealCardHtml).join("");
     } catch (err) {
-      el.dealsStrip.innerHTML = '<div class="empty-state">Couldn\'t load deals.</div>';
+      el.dealsStrip.innerHTML = '<div class="empty-state">Southpaw can\'t reach the price feed right now. Try refreshing in a moment.</div>';
       console.error(err);
     }
   }
@@ -541,7 +794,7 @@
   }
 
   async function loadListings() {
-    el.tableWrap.innerHTML = '<div class="loading-state">Loading listings…</div>';
+    el.tableWrap.innerHTML = skeletonRows(6);
     el.pagination.style.display = "none";
     try {
       const result = await fetchJson("/api/listings?" + buildListingsQuery());
@@ -549,7 +802,7 @@
       renderTable(result.data);
       renderPagination();
     } catch (err) {
-      el.tableWrap.innerHTML = '<div class="empty-state">Couldn\'t load listings.</div>';
+      el.tableWrap.innerHTML = '<div class="empty-state">Southpaw can\'t reach the price feed right now. Try refreshing in a moment.</div>';
       console.error(err);
     }
   }
@@ -560,7 +813,6 @@
       return;
     }
 
-    const sortLabels = { deal: "Deal", price: "Price", name: "Name" };
     const sortKey = state.filters.sort;
 
     const table = document.createElement("table");
@@ -584,16 +836,18 @@
     rows.forEach((r) => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
-        <td>${escapeHtml(r.product_name)}</td>
-        <td>${escapeHtml(r.brand_name)}</td>
-        <td>${clubTypeBadgeHtml(r.club_type)}</td>
-        <td>${escapeHtml(r.condition)}</td>
-        <td>${escapeHtml(r.seller_name)}</td>
-        <td class="price-cell">${formatMoney(r.price_cents)}${Number(r.discount_pct) > 0 ? `<span class="discount-pill">${r.discount_pct}% off</span>` : ""}</td>
-        <td>${Number(r.discount_pct) > 0 ? r.discount_pct + "%" : "—"}</td>
-        <td>
-          <a class="btn btn-link" href="${escapeAttr(r.product_url)}" target="_blank" rel="noopener">View</a>
-          <button class="btn btn-notify" data-listing-id="${r.listing_id}" data-product-name="${escapeAttr(r.brand_name + " " + r.product_name)}">Notify me</button>
+        <td data-label="Product">${escapeHtml(r.product_name)}</td>
+        <td data-label="Brand">${escapeHtml(r.brand_name)}</td>
+        <td data-label="Type">${clubTypeBadgeHtml(r.club_type)}</td>
+        <td data-label="Condition">${conditionHtml(r.condition)}</td>
+        <td data-label="Seller"><button type="button" class="seller-link" data-seller="${escapeAttr(r.seller_name)}">${escapeHtml(r.seller_name)}</button></td>
+        <td data-label="Price" class="price-cell">${formatMoney(r.price_cents)}${Number(r.discount_pct) > 0 ? `<span class="discount-pill">${r.discount_pct}% off</span>` : ""}</td>
+        <td data-label="Deal">${Number(r.discount_pct) > 0 ? r.discount_pct + "%" : "—"}</td>
+        <td class="row-actions-cell">
+          <div class="row-actions">
+            <a class="btn btn-link" href="${escapeAttr(r.product_url)}" target="_blank" rel="noopener">View</a>
+            <button class="btn btn-notify" data-listing-id="${r.listing_id}" data-product-name="${escapeAttr(r.brand_name + " " + r.product_name)}">Notify me</button>
+          </div>
         </td>
       `;
       tbody.appendChild(tr);
@@ -614,6 +868,15 @@
     table.querySelectorAll(".btn-notify").forEach((btn) => {
       btn.addEventListener("click", () => openModal(Number(btn.dataset.listingId), btn.dataset.productName));
     });
+
+    table.querySelectorAll(".seller-link").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        el.sellerFilter.value = btn.dataset.seller;
+        state.filters.seller = btn.dataset.seller;
+        state.page = 1;
+        loadListings();
+      });
+    });
   }
 
   function renderPagination() {
@@ -630,6 +893,8 @@
     el.modalEmail.value = "";
     el.modalTargetPrice.value = "";
     el.modalMessage.innerHTML = "";
+    el.modalSubmit.style.display = "";
+    el.modalCancel.textContent = "Cancel";
     el.modalOverlay.classList.add("open");
   }
 
@@ -670,8 +935,17 @@
         const body = await res.json().catch(() => ({}));
         throw new Error(body.error || "Failed to create watch");
       }
-      el.modalMessage.innerHTML = '<div class="modal-message success">You\'re set — we\'ll email you on a price drop.</div>';
-      setTimeout(closeModal, 1400);
+      el.modalMessage.innerHTML = `
+        <div class="modal-message success">
+          <svg class="check-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+            <circle cx="12" cy="12" r="10" stroke-opacity="0.35"/>
+            <path d="M7 12.5l3 3 7-7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>You're set — we'll email you on a price drop.</span>
+        </div>`;
+      el.modalSubmit.style.display = "none";
+      el.modalCancel.textContent = "Close";
+      setTimeout(closeModal, 2000);
     } catch (err) {
       el.modalMessage.innerHTML = `<div class="modal-message error">Couldn't save: ${escapeHtml(err.message)}</div>`;
     } finally {
@@ -703,7 +977,16 @@
   el.sellerFilter.addEventListener("change", () => { state.filters.seller = el.sellerFilter.value; state.page = 1; loadListings(); });
   el.conditionFilter.addEventListener("change", () => { state.filters.condition = el.conditionFilter.value; state.page = 1; loadListings(); });
   el.sortSelect.addEventListener("change", () => { state.filters.sort = el.sortSelect.value; state.page = 1; loadListings(); });
-  el.currencySelect.addEventListener("change", () => { state.currency = el.currencySelect.value; loadListings(); loadDeals(); });
+
+  el.currencyToggle.addEventListener("click", (e) => {
+    const btn = e.target.closest(".currency-btn");
+    if (!btn) return;
+    el.currencyToggle.querySelectorAll(".currency-btn").forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+    state.currency = btn.dataset.currency;
+    loadListings();
+    loadDeals();
+  });
 
   el.prevPage.addEventListener("click", () => { if (state.page > 1) { state.page--; loadListings(); } });
   el.nextPage.addEventListener("click", () => {
