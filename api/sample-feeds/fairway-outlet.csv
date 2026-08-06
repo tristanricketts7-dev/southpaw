@@ -1,6 +1,0 @@
-brand,name,club_type,hand,condition,price,original_price,currency,product_url,loft,shaft,length,lie_angle,in_stock,sku
-Callaway,Paradym Ai Smoke Driver,driver,left,used,349.00,449.99,USD,https://fairwayoutlet.example.com/p/paradym-ai-smoke-driver-used,10.5,Regular,,,"true",FWO-CW-PAS-DRV-U
-TaylorMade,Qi10 Fairway Wood,fairway_wood,left,new,299.99,329.99,USD,https://fairwayoutlet.example.com/p/qi10-fairway-wood,15,Stiff,,,"true",FWO-TM-QI10-FW
-Mizuno,JPX923 Hot Metal Irons,irons,left,new,999.99,,USD,https://fairwayoutlet.example.com/p/jpx923-hot-metal-irons,,Regular,Standard,Standard,"false",FWO-MZ-JPX923-IRN
-Callaway,Rogue ST Max Driver,driver,right,new,399.99,,USD,https://fairwayoutlet.example.com/p/rogue-st-max-driver-rh,,,,,"true",FWO-CW-ROGST-DRV-RH
-Cobra,King LTDx Hybrid,hybrid,left,new,,,USD,,,,,,"true",FWO-CB-LTDX-HYB-BAD

@@ -1,27 +1,5 @@
 [
   {
-    "name": "leftyclubs-direct-json",
-    "type": "localJson",
-    "path": "sample-feeds/leftyclubs-direct.json",
-    "seller": {
-      "name": "LeftyClubs Direct",
-      "sellerType": "brand_direct",
-      "websiteUrl": "https://leftyclubs.example.com",
-      "affiliateNetwork": null
-    }
-  },
-  {
-    "name": "fairway-outlet-csv",
-    "type": "csv",
-    "path": "sample-feeds/fairway-outlet.csv",
-    "seller": {
-      "name": "Fairway Outlet",
-      "sellerType": "independent",
-      "websiteUrl": "https://fairwayoutlet.example.com",
-      "affiliateNetwork": "ShareASale"
-    }
-  },
-  {
     "sellerName": "Mixed Starter List",
     "adapter": "csv",
     "path": "sample-feeds/starter-list.csv"
