@@ -154,7 +154,10 @@
     display: flex;
     gap: 14px;
     overflow-x: auto;
-    padding: 4px 4px 12px;
+    /* overflow-x:auto forces overflow-y to clip too, so the badge's
+       negative top offset needs real padding here or it gets cut off. */
+    padding: 18px 4px 12px;
+    margin-top: -14px;
   }
 
   .deal-card {
