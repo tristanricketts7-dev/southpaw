@@ -8,7 +8,7 @@ function normalizeRecord(raw) {
     return { ok: false, reason: `not left-handed (hand=${raw.hand})` };
   }
 
-  const brand = String(raw.brand ?? "").trim();
+  const brand = String(raw.brand ?? raw.brand_name ?? "").trim();
   const name = String(raw.name ?? raw.product_name ?? "").trim();
   if (!brand || !name) {
     return { ok: false, reason: "missing brand or name" };
@@ -57,6 +57,7 @@ function normalizeRecord(raw) {
       productUrl,
       inStock: toBoolean(raw.in_stock, true),
       externalListingId: emptyToNull(raw.external_listing_id ?? raw.sku),
+      sellerName: emptyToNull(raw.seller_name),
     },
   };
 }

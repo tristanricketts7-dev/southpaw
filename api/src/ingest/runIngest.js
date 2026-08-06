@@ -5,7 +5,7 @@ const { pool } = require("../db");
 const { normalizeRecord } = require("./normalize");
 const { loadLocalJsonFeed } = require("./adapters/localJsonAdapter");
 const { loadCsvFeed } = require("./adapters/csvAdapter");
-const { upsertSeller, upsertRecord } = require("./upsert");
+const { upsertSeller, upsertSellerByName, upsertRecord } = require("./upsert");
 
 const ADAPTERS = {
   localJson: loadLocalJsonFeed,
@@ -26,15 +26,17 @@ async function runIngest(configPath = DEFAULT_CONFIG_PATH) {
 }
 
 async function ingestSource(source) {
-  const loadFeed = ADAPTERS[source.type];
+  const adapterType = source.adapter || source.type;
+  const loadFeed = ADAPTERS[adapterType];
+  const label = source.name || source.sellerName;
   if (!loadFeed) {
-    throw new Error(`Unknown feed source type "${source.type}" for source "${source.name}"`);
+    throw new Error(`Unknown feed source adapter "${adapterType}" for source "${label}"`);
   }
 
   const rawRecords = loadFeed(source);
 
   const stats = {
-    source: source.name,
+    source: label,
     total: rawRecords.length,
     ingested: 0,
     priceChanges: 0,
@@ -43,7 +45,9 @@ async function ingestSource(source) {
 
   const client = await pool.connect();
   try {
-    const sellerId = await upsertSeller(client, source.seller);
+    // Some feeds map to one configured seller; others (e.g. a mixed CSV
+    // aggregating several shops) carry a seller_name per row instead.
+    const defaultSellerId = source.seller ? await upsertSeller(client, source.seller) : null;
 
     for (const raw of rawRecords) {
       const { ok, record, reason } = normalizeRecord(raw);
@@ -53,6 +57,15 @@ async function ingestSource(source) {
       }
 
       try {
+        const sellerId = record.sellerName
+          ? await upsertSellerByName(client, record.sellerName, record.productUrl)
+          : defaultSellerId;
+
+        if (!sellerId) {
+          stats.skipped.push({ raw, reason: "no seller_name in row and no default seller configured for this source" });
+          continue;
+        }
+
         const { priceChanged } = await upsertRecord(client, sellerId, record);
         stats.ingested++;
         if (priceChanged) stats.priceChanges++;

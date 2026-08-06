@@ -193,6 +193,17 @@
     margin-left: 6px;
   }
 
+  .type-badge {
+    display: inline-block;
+    background: var(--sand-dark);
+    color: var(--fairway-dark);
+    font-weight: 700;
+    font-size: 0.72rem;
+    letter-spacing: 0.3px;
+    padding: 2px 7px;
+    border-radius: 5px;
+  }
+
   .btn {
     display: inline-block;
     padding: 6px 12px;
@@ -432,6 +443,16 @@
     driver: "Driver", irons: "Irons", wedge: "Wedge",
     putter: "Putter", hybrid: "Hybrid", fairway_wood: "Fairway Wood",
   };
+  const CLUB_TYPE_BADGES = {
+    driver: "DR", irons: "IR", wedge: "WD",
+    putter: "PT", hybrid: "HY", fairway_wood: "FW",
+  };
+
+  function clubTypeBadgeHtml(clubType) {
+    const label = CLUB_TYPE_LABELS[clubType] || clubType;
+    const badge = CLUB_TYPE_BADGES[clubType] || String(clubType).slice(0, 2).toUpperCase();
+    return `<span class="type-badge" title="${escapeAttr(label)}">${escapeHtml(badge)}</span>`;
+  }
 
   function formatMoney(cents) {
     const rate = FX_RATES[state.currency] || 1;
@@ -492,7 +513,7 @@
   async function loadDeals() {
     el.dealsStrip.innerHTML = '<div class="loading-state">Loading deals…</div>';
     try {
-      const deals = await fetchJson("/api/deals/top?limit=8");
+      const deals = await fetchJson("/api/deals/top?limit=4");
       if (deals.length === 0) {
         el.dealsStrip.innerHTML = '<div class="empty-state">No deals right now — check back soon.</div>';
         return;
@@ -514,7 +535,7 @@
           <span class="price">${formatMoney(d.price_cents)}</span>
           ${d.original_price_cents && d.original_price_cents > d.price_cents ? `<span class="orig-price">${formatMoney(d.original_price_cents)}</span>` : ""}
         </div>
-        <div class="seller">${escapeHtml(d.seller_name)} · ${escapeHtml(d.club_type)}</div>
+        <div class="seller">${escapeHtml(d.seller_name)} · ${clubTypeBadgeHtml(d.club_type)}</div>
       </div>
     `;
   }
@@ -565,7 +586,7 @@
       tr.innerHTML = `
         <td>${escapeHtml(r.product_name)}</td>
         <td>${escapeHtml(r.brand_name)}</td>
-        <td>${escapeHtml(CLUB_TYPE_LABELS[r.club_type] || r.club_type)}</td>
+        <td>${clubTypeBadgeHtml(r.club_type)}</td>
         <td>${escapeHtml(r.condition)}</td>
         <td>${escapeHtml(r.seller_name)}</td>
         <td class="price-cell">${formatMoney(r.price_cents)}${Number(r.discount_pct) > 0 ? `<span class="discount-pill">${r.discount_pct}% off</span>` : ""}</td>
@@ -636,6 +657,9 @@
     }
 
     el.modalSubmit.disabled = true;
+    const originalLabel = el.modalSubmit.textContent;
+    el.modalSubmit.textContent = "Saving…";
+    el.modalMessage.innerHTML = "";
     try {
       const res = await fetch(API_BASE + "/api/watchlist", {
         method: "POST",
@@ -649,9 +673,10 @@
       el.modalMessage.innerHTML = '<div class="modal-message success">You\'re set — we\'ll email you on a price drop.</div>';
       setTimeout(closeModal, 1400);
     } catch (err) {
-      el.modalMessage.innerHTML = `<div class="modal-message error">${escapeHtml(err.message)}</div>`;
+      el.modalMessage.innerHTML = `<div class="modal-message error">Couldn't save: ${escapeHtml(err.message)}</div>`;
     } finally {
       el.modalSubmit.disabled = false;
+      el.modalSubmit.textContent = originalLabel;
     }
   }
 

@@ -1,0 +1,24 @@
+seller_name,brand_name,product_name,club_type,hand,loft,shaft,length,lie_angle,condition,price,original_price,currency,product_url,external_listing_id,in_stock
+PGA Tour Superstore,Ping,G440 K Driver,driver,left,,,,,new,649.99,,USD,https://www.pgatoursuperstore.com/g440-k-driver/2000000057743.html,PGATS-2000000057743,true
+PGA Tour Superstore,TaylorMade,SIM2 Max Driver,driver,left,,,,,new,349.98,529.99,USD,https://www.pgatoursuperstore.com/sim2-max-driver/2000000018849.html,PGATS-2000000018849,true
+PGA Tour Superstore,Callaway,ELYTE Night Edition Mini Driver,driver,left,,,,,new,349.98,519.99,USD,https://www.pgatoursuperstore.com/elyte-night-edition-mini-driver/2000000056726.html,PGATS-2000000056726,true
+PGA Tour Superstore,Ping,G440 Irons w/ Steel Shafts,irons,left,varies,,standard,,new,857.98,,USD,https://www.pgatoursuperstore.com/g440-irons-w/-steel-shafts/2000000047741.html,PGATS-2000000047741,true
+PGA Tour Superstore,TaylorMade,SIM2 Max Irons w/ Steel Shafts,irons,left,varies,,standard,,new,649.98,799.99,USD,https://www.pgatoursuperstore.com/sim2-max-irons-w/-steel-shafts/2000000018854.html,PGATS-2000000018854,true
+PGA Tour Superstore,Srixon,ZXi5 Irons w/ Steel Shafts,irons,left,varies,,standard,,new,1199.99,,USD,https://www.pgatoursuperstore.com/zxi5-irons-w/-steel-shafts/2000000050431.html,PGATS-2000000050431,true
+PGA Tour Superstore,Titleist,Vokey SM10 Tour Chrome Wedge,wedge,left,,,,,new,159.98,189.99,USD,https://www.pgatoursuperstore.com/vokey-sm10-tour-chrome-wedge/2000000041794.html,PGATS-2000000041794,true
+PGA Tour Superstore,Titleist,Scotty Cameron 2024 Phantom 9.5 Putter,putter,left,,,34",,new,449.99,,USD,https://www.pgatoursuperstore.com/scotty-cameron-2024-phantom-9.5-putter/2000000042250.html,PGATS-2000000042250,true
+PGA Tour Superstore,Ping,G440 Hybrid,hybrid,left,,,,,new,268.98,319.99,USD,https://www.pgatoursuperstore.com/g440-hybrid/2000000047710.html,PGATS-2000000047710,true
+PGA Tour Superstore,Ping,G440 Max Fairway Wood,fairway_wood,left,,,,,new,298.98,369.99,USD,https://www.pgatoursuperstore.com/g440-max-fairway-wood/2000000047701.html,PGATS-2000000047701,true
+2nd Swing Golf,Titleist,GT2 Driver,driver,left,10°,Mitsubishi Tensei 1K Blue 55,45.5in,58.5°,new,449.99,649.00,USD,https://www.2ndswing.com/golf-clubs/drivers/titleist-gt2-driver/gt2-dvr/?selectedId=8953494,2NDSWING-8953494,true
+2nd Swing Golf,Titleist,GT2 Driver,driver,left,9°,Graphite Design Tour AD IZ-6,45.5in,58.5°,used,529.99,649.00,USD,https://www.2ndswing.com/golf-clubs/drivers/titleist-gt2-driver/left-handed-x-stiff-graphite-45dot5in-d-22647687988,2NDSWING-D-22647687988,true
+2nd Swing Golf,Titleist,GT2 Driver,driver,left,11°,Mitsubishi Tensei 1K Black 65,45.5in,58.5°,used,436.99,649.00,USD,https://www.2ndswing.com/golf-clubs/drivers/titleist-gt2-driver/left-handed-tour-x-stiff-graphite-45dot5in-d-12647420135,2NDSWING-D-12647420135,true
+GlobalGolf,TaylorMade,M5 Driver,driver,left,,,,,used,214.99,,USD,https://www.globalgolf.com/golf-clubs/1046554-taylormade-m5-driver/used/,GLOBALGOLF-1046554,true
+GlobalGolf,TaylorMade,Qi10 MAX Driver,driver,left,,,,,used,274.99,,USD,https://www.globalgolf.com/golf-clubs/1070945-taylormade-qi10-max-driver/used/,GLOBALGOLF-1070945,true
+Rock Bottom Golf,Titleist,GT2 Driver,driver,left,,,Standard,Standard,new,449.99,649.99,USD,https://www.rockbottomgolf.com/lefties/drivers/titleist-golf-lh-gt2-driver-left-handed/,RBG-10TITGT2DRMLH,true
+Rock Bottom Golf,TaylorMade,SIM2 Max Driver,driver,left,,,45.75",Standard,new,349.99,529.99,USD,https://www.rockbottomgolf.com/lefties/drivers/taylormade-golf-lh-sim2-max-driver-left-handed/,RBG-10TAYSIM2MDRMLH,true
+SidelineSwap,Ping,G430 Max Driver,driver,left,10.5°,,,,used,280.00,500.00,USD,https://sidelineswap.com/gear/golf/clubs/drivers/12619866-ping-men-s-g430-max-left-hand-driver-10-5-loft-used,SIDELINESWAP-12619866,true
+eBay,Callaway,Rogue ST Max Driver,driver,left,10.5°,,,,used,204.99,299.99,USD,https://www.ebay.com/b/Left-Handed-Golf-Drivers-for-Men/115280/bn_7240583,EBAY-yhf6097125,true
+eBay,TaylorMade,Qi10 MAX Driver,driver,left,10.5°,Mitsubishi Diamana T+ 60,,,used,233.99,599.99,USD,https://www.ebay.com/shop/lefty-golf-driver?_nkw=lefty+golf+driver,EBAY-Qi10MAXMint,true
+Callaway Certified Pre-Owned,Callaway,Rogue ST MAX LS Driver,driver,left,,,,,used,175.94,206.99,USD,https://www.callawaygolfpreowned.com/drivers/drivers-2022-rogue-st-max-ls.html,CGPO-rogue-st-max-ls,true
+Callaway Certified Pre-Owned,Callaway,Paradym Ai Smoke MAX Driver,driver,left,,,,,used,248.97,311.21,USD,https://www.callawaygolfpreowned.com/drivers/drivers-2024-paradym-ai-smoke-max.html,CGPO-paradym-ai-smoke-max,true
+Replay Golf,Mizuno,JPX 923 Forged 4 Iron,irons,left,21.0°,,,,new,138.00,,USD,https://replay-golf.pro/,REPLAY-jpx923-4iron,true

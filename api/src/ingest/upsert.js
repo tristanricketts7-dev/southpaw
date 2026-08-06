@@ -14,6 +14,29 @@ async function upsertSeller(client, seller) {
   return rows[0].id;
 }
 
+// Resolves a seller from a per-row seller_name (e.g. a multi-seller CSV where
+// each row names its own shop, rather than one seller configured per feed
+// source). Leaves an existing seller's type/website untouched on conflict --
+// only fills in a guessed website_url (from the row's own product_url) when
+// creating a brand-new seller we have no other metadata for.
+async function upsertSellerByName(client, name, productUrl) {
+  let websiteUrl;
+  try {
+    websiteUrl = new URL(productUrl).origin;
+  } catch {
+    websiteUrl = productUrl;
+  }
+
+  const { rows } = await client.query(
+    `INSERT INTO sellers (name, seller_type, website_url)
+     VALUES ($1, 'independent', $2)
+     ON CONFLICT (name) DO UPDATE SET name = EXCLUDED.name
+     RETURNING id`,
+    [name, websiteUrl]
+  );
+  return rows[0].id;
+}
+
 async function upsertBrand(client, brandName) {
   const { rows } = await client.query(
     `INSERT INTO brands (name) VALUES ($1)
@@ -41,20 +64,26 @@ async function upsertProduct(client, brandId, record) {
 }
 
 // Returns existing listing id + its current price, matching by
-// (seller_id, external_listing_id) when the feed gives us a stable SKU,
-// otherwise by (product_id, seller_id, condition) as a practical fallback.
+// (seller_id, external_listing_id) when the feed gives us a stable SKU --
+// authoritative when present, so a miss there means a genuinely new listing,
+// not a fallback match. Sellers can have multiple listings with the same
+// condition for one product (e.g. two "used" units with different shafts),
+// so falling back to (product_id, seller_id, condition) when an external id
+// is present would silently merge distinct listings into one.
+// The (product_id, seller_id, condition) fallback is only for feeds that
+// never provide a stable SKU at all, and is scoped to other SKU-less rows.
 async function findExistingListing(client, productId, sellerId, record) {
   if (record.externalListingId) {
     const { rows } = await client.query(
       `SELECT id, price_cents FROM listings WHERE seller_id = $1 AND external_listing_id = $2`,
       [sellerId, record.externalListingId]
     );
-    if (rows[0]) return rows[0];
+    return rows[0] ?? null;
   }
 
   const { rows } = await client.query(
     `SELECT id, price_cents FROM listings
-     WHERE product_id = $1 AND seller_id = $2 AND condition = $3`,
+     WHERE product_id = $1 AND seller_id = $2 AND condition = $3 AND external_listing_id IS NULL`,
     [productId, sellerId, record.condition]
   );
   return rows[0] ?? null;
@@ -122,4 +151,4 @@ async function upsertRecord(client, sellerId, record) {
   return upsertListing(client, productId, sellerId, record);
 }
 
-module.exports = { upsertSeller, upsertRecord };
+module.exports = { upsertSeller, upsertSellerByName, upsertRecord };

@@ -20,5 +20,10 @@
       "websiteUrl": "https://fairwayoutlet.example.com",
       "affiliateNetwork": "ShareASale"
     }
+  },
+  {
+    "sellerName": "Mixed Starter List",
+    "adapter": "csv",
+    "path": "sample-feeds/starter-list.csv"
   }
 ]

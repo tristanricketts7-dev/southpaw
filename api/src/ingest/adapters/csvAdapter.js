@@ -47,7 +47,10 @@ function parseCsv(text) {
       continue;
     }
 
-    if (char === '"') {
+    if (char === '"' && field === "") {
+      // Only treat a quote as opening quoted-field mode when it's the first
+      // character of the field. A bare quote later in the field (e.g. a 34"
+      // putter length) is just literal text, not CSV quoting.
       inQuotes = true;
     } else if (char === ",") {
       row.push(field);
